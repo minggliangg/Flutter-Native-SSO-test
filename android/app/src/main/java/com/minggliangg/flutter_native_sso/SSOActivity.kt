@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.facebook.*
+import com.facebook.login.LoginManager
 
 import com.facebook.login.widget.LoginButton
 import com.facebook.login.LoginResult
@@ -45,6 +46,12 @@ class SSOActivity : AppCompatActivity() {
             GraphRequest.GraphJSONObjectCallback {
             override fun onCompleted(obj: JSONObject?, response: GraphResponse?) {
                 Log.d("from Facebook Button", "Completed ${obj.toString()}")
+                var name:String = obj?.getString("name") ?: "Not Found"
+                intent.putExtra("name",name)
+                setResult(RESULT_OK, intent);
+                finish()
+
+
             }
 
         })
@@ -56,5 +63,18 @@ class SSOActivity : AppCompatActivity() {
         graphRequest.executeAsync()
 
     }
-    
+
+    var accessTokenTracker: AccessTokenTracker =object: AccessTokenTracker(){
+        override fun onCurrentAccessTokenChanged(oldAccessToken: AccessToken?, currentAccessToken: AccessToken?) {
+            if (currentAccessToken == null){
+                LoginManager.getInstance().logOut()
+            }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        accessTokenTracker.stopTracking()
+    }
 }
