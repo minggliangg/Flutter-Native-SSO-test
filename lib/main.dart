@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_sso/PlatformViewDemo.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,11 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(child: PlatformViewDemo()),
+      body: Center(
+        child: Text(_myName),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           _startSSO();
-          print(_myName);
         },
         tooltip: 'Increment',
         icon: Icon(Icons.facebook),

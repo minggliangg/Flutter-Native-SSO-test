@@ -8,6 +8,7 @@ import com.facebook.*
 import com.facebook.login.widget.LoginButton
 import com.facebook.login.LoginResult
 import io.flutter.Log
+import org.json.JSONObject
 
 class SSOActivity : AppCompatActivity() {
 
@@ -39,5 +40,21 @@ class SSOActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager.onActivityResult(requestCode,resultCode,data)
         super.onActivityResult(requestCode, resultCode, data)
+
+        val graphRequest:GraphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),object:
+            GraphRequest.GraphJSONObjectCallback {
+            override fun onCompleted(obj: JSONObject?, response: GraphResponse?) {
+                Log.d("from Facebook Button", "Completed ${obj.toString()}")
+            }
+
+        })
+
+
+        val bundle = Bundle()
+        bundle.putString("fields","name,id,first_name,last_name,email")
+        graphRequest.parameters = bundle
+        graphRequest.executeAsync()
+
     }
+    
 }

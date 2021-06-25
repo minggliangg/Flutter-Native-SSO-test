@@ -28,7 +28,6 @@ class MainActivity: FlutterActivity() {
     private fun startNewActivity() {
         val intent = Intent(this, SSOActivity().javaClass)
         startActivity(intent)
-//        flutterEngine.plugins.add(MyPlugin())
     }
 
 }
