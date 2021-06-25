@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_sso/PlatformViewDemo.dart';
 
 void main() {
@@ -28,6 +29,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static const platform = const MethodChannel('ssoChannel');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(child: PlatformViewDemo()),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => platform.invokeMethod('startSSO'),
         tooltip: 'Increment',
         icon: Icon(Icons.facebook),
         label: Text('Facebook'),
