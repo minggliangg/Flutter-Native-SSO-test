@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static const platform = const MethodChannel('ssoChannel');
+  String _myName = 'Please Log in!';
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +40,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(child: PlatformViewDemo()),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => platform.invokeMethod('startSSO'),
+        onPressed: () {
+          _startSSO();
+          print(_myName);
+        },
         tooltip: 'Increment',
         icon: Icon(Icons.facebook),
         label: Text('Facebook'),
       ),
     );
+  }
+
+  Future<void> _startSSO() async {
+    String myName;
+    try {
+      final String result = await platform.invokeMethod('startSSO');
+      myName = result;
+    } on PlatformException catch (e) {
+      myName = "Failed To Login: '${e.message}'.";
+    }
+
+    setState(() {
+      _myName = myName;
+    });
   }
 }
