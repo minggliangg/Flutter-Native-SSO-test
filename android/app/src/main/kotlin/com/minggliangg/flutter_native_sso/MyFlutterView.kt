@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.TextView
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.platform.PlatformView
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 
 class MyFlutterView(context: Context, messenger: BinaryMessenger, viewId: Int, args: Map<String, Any>?) : PlatformView {
 
